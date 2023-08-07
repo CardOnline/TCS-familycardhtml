@@ -102,6 +102,8 @@
 
 
   function take_data_and_make_family_csv(data){
+      // target_array_setup makes two arrays of target heading structure.
+      // In target_match_making_array, there are $ prefix for the ones we have to copy and paste at right location
       target_array_setup();
       // alert(data);
       // data=parse(); //The data from above input section is now available.
@@ -124,8 +126,9 @@
       card_per_family=1; // Initiating the card. Usually it will always be 1. It will change only if same family has members more than
       // lines_available_in_card.
       // alert(target_match_making_array);
-      familyIdColumn =1;// This is the second column called customer id. It has two parts. first part is common for a family. then hypen - and second part is a incrementing number for each member
-      family_id=data[i][familyIdColumn].split("-")[0];
+      // familyIdColumn =1;// This is the second column called customer id. It has two parts. first part is common for a family. then hypen - and second part is a incrementing number for each member
+      familyIdColumn =11;// In TCS This is the eleventh column called Policy no. For a family, this remains same.
+      family_id=data[i][familyIdColumn].split("-")[0]; // I have kept the split as there is no problem as there is no dash in policy number. Thus 0th element will be the complete policy number.
       stored_family_id=family_id;
       target_row_index=1 // This is the starting index to insert data in result_data. Index 0 being heading.
       while (i<total_individual_data_count) {
@@ -136,7 +139,7 @@
           target_row_index++;
           current_line=1; //reset to one so that first line on next card is filled now.
         }
-        if (current_line>5){
+        if (current_line>lines_available_in_card){
           current_line=1;// if current line is more than five means same family has more than five members.
           target_row_index++;// Thus we have to start next card and reset the current line to 1 so that it takes in from line 1 in print.
         }
@@ -278,7 +281,9 @@
 
   function target_array_setup(){
     target_heading_text ="Policy NO1	Customer Name1	Date1	Gender1	ID Card No1	Customer Name2	Date2	Gender2	ID Card No2	Customer Name3	Date3	Gender3	ID Card No3	Customer Name4	Reserved1	Reserved2	BON	Policy Fm Date1	PMS	PBS	Date4	Gender4	ID Card No4	Customer Name5	Date5	Gender5	ID Card No5	Office Code1	Reserved4	TA_SSM_SM_Code	Reserved5	Reserved6	Reserved7";
-    target_match_making_text = "$Policy NO1	$Customer Name1	$DOB1	$Gender1	$ID Card No1	$Customer Name2	$DOB2	$Gender2	$ID Card No2	$Customer Name3	$DOB3	$Gender3	$ID Card No3	$Customer Name4	Reserved1	Reserved2	$BON	$Policy Fm Dt1	$PMS	$PBS	$DOB4	$Gender4	$ID Card No4	$Customer Name5	$DOB5	$Gender5	$ID Card No5	$Office Code1	Reserved4	$TA/SSM/SM Code1	Reserved5	Reserved6	Reserved7";
+    // target_match_making_text = "$Policy NO1	$Customer Name1	$DOB1	$Gender1	$ID Card No1	$Customer Name2	$DOB2	$Gender2	$ID Card No2	$Customer Name3	$DOB3	$Gender3	$ID Card No3	$Customer Name4	Reserved1	Reserved2	$BON	$Policy Fm Dt1	$PMS	$PBS	$DOB4	$Gender4	$ID Card No4	$Customer Name5	$DOB5	$Gender5	$ID Card No5	$Office Code1	Reserved4	$TA/SSM/SM Code1	Reserved5	Reserved6	Reserved7";
+    // the above target_match_making_text is changed as per the source headings of the TCS file.
+    target_match_making_text = "$POLICY NO1	$INSURED NAME1	$DATE OF BIRTH1	$GENDER1	$ID CARD NO1	$INSURED NAME2	$DATE OF BIRTH2	$GENDER2	$ID CARD NO2	$INSURED NAME3	$DATE OF BIRTH3	$GENDER3	$ID CARD NO3	$INSURED NAME4	Reserved1	Reserved2	$BON	$Policy Fm Dt1	$PMS	$PBS	$DATE OF BIRTH4	$GENDER4	$ID CARD NO4	$INSURED NAME5	$DATE OF BIRTH5	$GENDER5	$ID CARD NO5	$OFFICE CODE1	Reserved4	$SM/MT CODE1	Reserved5	Reserved6	Reserved7";
     target_heading_array=target_heading_text.split("	");
     target_match_making_array=target_match_making_text.split("	");
     // target_blank_row_array=make_array([" "],target_heading_array.length);
@@ -300,7 +305,10 @@
 
   function source_data_setup(data){
     headings = data[0];
-    stored_headings_array=["Sr.No","ID Card No","Customer Name","DOB","Age","Gender","Office Code","Policy Fm Dt","TA/SSM/SM Code","Agent/Broker/TE Code","Policy NO","Pol Issue DT"]
+    // stored_headings_array=["Sr.No","ID Card No","Customer Name","DOB","Age","Gender","Office Code","Policy Fm Dt","TA/SSM/SM Code","Agent/Broker/TE Code","Policy NO","Pol Issue DT"]
+    // This new stored_headings_array is for TCS input file.
+    stored_headings_array=["ID CARD NO","INSURED NAME","DATE OF BIRTH","AGE","GENDER","POLICY FM DATE","SM/MT CODE","AGENT/BROKER CODE","PRODUCT NAME","POLICY ISSUE DATE","OFFICE CODE","POLICY NO","PROPOSAL NO","Photo Path"]
+    
     // stored_headings_array=stored_headings_string.split(",");
     // alert("Stored headings array is:"+stored_headings_array);
     result_of_comparision=""

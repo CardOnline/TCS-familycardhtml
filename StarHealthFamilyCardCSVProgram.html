@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>File Handling</title>
+    <title>File Handling TCS V0.1</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto|Source+Code+Pro" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css">
@@ -23,9 +23,11 @@
       <section id="content">
         <!-- version V1-3 Changed contents of this h2 -->
         <h2>Preparing file for family cards of Star Health</h2>
-        <p>Please download xlsx file from TCS. Then open it and save it as csv file.
-          Please use first blue button to submit this CSV file.<hr>
-           Then click the second blue button to get csvToXlsxfileSorted.xlsx file.
+        <p>Please download .xlsx file from TCS. <hr>
+          Then open it and save it as csv file.<hr>
+          Please use Choose File button to select this file. <hr>
+          Then click on the blue button to submit this CSV file.<hr>
+           Then click the second blue button to get csvToXlsxfileSorted.xlsx file.<hr>
            This file is to be uploaded to Card-online.biz portal.</p>
         <hr>
         <h2>Input</h2>
@@ -34,7 +36,7 @@
           <h2>You submitted individual records: <sp id="report_source_count"></sp></h2>
         </div>
         <div class="mydiv">
-          <button class="btn btn-primary" id="button_proceed" name="button" disabled=true >Process and download XLSX (Sorted with SM Code and Customer ID)</button>
+          <button class="btn btn-primary" id="button_proceed" name="button" disabled=true >Process and download XLSX</button>
           <h2>Family cards record quantity is: <span id="report_family_record_count"></span></h2>
         </div>
 
@@ -56,6 +58,7 @@
     <script>
       // enable syntax highlighting
       hljs.initHighlightingOnLoad();
+      // Declaring global variable data array. With blank array inside it.
       data=[[],];
       $(document).ready(function() {
         if(isFileAPIAvailable()) {
@@ -78,6 +81,7 @@
         var file = files[0];
         // Disable the button after submitting file.
         $("#files").attr("disabled", true);
+        // Show proceed button after file is submitted.
         $("#button_proceed").attr("disabled", false);
 
         var fileInfo = `
@@ -93,17 +97,20 @@
         reader.onload = function(event){
           var csv = event.target.result;
           data = $.csv.toArrays(csv);
-          heading_array=data.slice(0,1);
-          data_portion=data.slice(1,);
-          sort_wrt_smcode_customerID(data_portion);
-          data=heading_array.concat(data_portion);
+          // for TCS, I am not storting the data so commenting the following portion
+
+          // heading_array=data.slice(0,1);
+          // data_portion=data.slice(1,);
+          // sort_wrt_smcode_customerID(data_portion);
+          // data=heading_array.concat(data_portion);
           $('#result').empty();
           $('#result').html(JSON.stringify(data, null, 2));
         }
       }
 
       function sort_wrt_smcode_customerID(data){
-        // in data array of arrays, the 9th and 1st items are sm code and customer id
+        // With 0 as starting item, in data array of arrays, the 8th and 1st items are sm code and customer id
+        
         data.sort(function(a, b){
           let x = a[8];
           let y = b[8];
