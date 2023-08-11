@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>File Handling TCS V0.2</title>
+    <title>File Handling TCS V0.3</title>
+    <!-- V0.3 branch created to implement sorting wrt policy number -->
     <!-- V0.2 changed target_match_making_text to match with TCS field name for Policy from date .. it is all caps as $POLICY FM DATE1 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto|Source+Code+Pro" rel="stylesheet">
@@ -98,35 +99,20 @@
         reader.onload = function(event){
           var csv = event.target.result;
           data = $.csv.toArrays(csv);
-          // for TCS, I am not storting the data so commenting the following portion
+          // for TCS, I am storting the data so wrt policy number
 
-          // heading_array=data.slice(0,1);
-          // data_portion=data.slice(1,);
+          heading_array=data.slice(0,1);
+          data_portion=data.slice(1,);
+          // I have added PolicyNO sorting here as required in TCS data format
           // sort_wrt_smcode_customerID(data_portion);
-          // data=heading_array.concat(data_portion);
+          sort_wrt_PolicyNo(data_portion);
+          data=heading_array.concat(data_portion);
           $('#result').empty();
           $('#result').html(JSON.stringify(data, null, 2));
         }
       }
 
-      function sort_wrt_smcode_customerID(data){
-        // With 0 as starting item, in data array of arrays, the 8th and 1st items are sm code and customer id
-        
-        data.sort(function(a, b){
-          let x = a[8];
-          let y = b[8];
-          if (x < y) {return 1;}
-          if (x > y) {return -1;}
-          if (x==y) {
-          	let p= a[1];
-              let q= b[1];
-          	if (p<q) {return -1;}
-              if (p>q) {return 1;}
-              return 0;
-          }
-        });
-
-      }
+      
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

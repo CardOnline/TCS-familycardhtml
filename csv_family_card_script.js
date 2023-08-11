@@ -346,3 +346,42 @@
   //   $('#result').empty();
   //   return data;
   // }
+
+
+  function sort_wrt_smcode_customerID(data){
+    // With 0 as starting item, in data array of arrays, the 8th and 1st items are sm code and customer id
+    
+    data.sort(function(a, b){
+      let x = a[8];
+      let y = b[8];
+      if (x < y) {return 1;}
+      if (x > y) {return -1;}
+      if (x==y) {
+        let p= a[1];
+          let q= b[1];
+        if (p<q) {return -1;}
+          if (p>q) {return 1;}
+          return 0;
+      }
+    });
+
+  }
+
+  function sort_wrt_PolicyNo(data){
+    // With 0 as starting item, in data array of arrays, the 6th and 11th items are sm code and Policy number
+    
+    data.sort(function(a, b){
+      let x = a[6];
+      let y = b[6];
+      if (x < y) {return 1;}
+      if (x > y) {return -1;}
+      if (x==y) {
+        let p= a[11];
+          let q= b[11];
+        if (p<q) {return -1;}
+          if (p>q) {return 1;}
+          return 0;
+      }
+    });
+
+  }
